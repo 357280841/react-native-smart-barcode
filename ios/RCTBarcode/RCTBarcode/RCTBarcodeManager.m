@@ -1,7 +1,7 @@
 
 #import "RCTBarcode.h"
 #import "RCTBarcodeManager.h"
-
+#import <AVFoundation/AVFoundation.h>
 
 
 @interface RCTBarcodeManager ()
@@ -124,10 +124,15 @@ RCT_EXPORT_METHOD(startSession) {
                 [self.metadataOutput setMetadataObjectsDelegate:self queue:self.sessionQueue];
                 [self.session addOutput:self.metadataOutput];
 //                  [metadataOutput setMetadataObjectTypes:self.metadataOutput.availableMetadataObjectTypes];
-                [self.metadataOutput setMetadataObjectTypes:self.barCodeTypes];
+//                [self.metadataOutput setMetadataObjectTypes:self.barCod   eTypes];
+                self.metadataOutput.metadataObjectTypes = @[AVMetadataObjectTypeQRCode,
+                                                    AVMetadataObjectTypeEAN13Code,
+                                                    @"org.iso.DataMatrix",
+                                                    AVMetadataObjectTypeEAN8Code,
+                                                    AVMetadataObjectTypeCode128Code];
             }
             
-//            [metadataOutput setMetadataObjectTypes:@[AVMetadataObjectTypeEAN13Code,AVMetadataObjectTypeEAN8Code,AVMetadataObjectTypeCode128Code,AVMetadataObjectTypeQRCode]];
+//            [metadataOutpu setMetadataObjectTypes:@[AVMetadataObjectTypeEAN13Code,AVMetadataObjectTypeEAN8Code,AVMetadataObjectTypeCode128Code,AVMetadataObjectTypeQRCode]];
             
             //            [[NSNotificationCenter defaultCenter] addObserverForName:AVCaptureInputPortFormatDescriptionDidChangeNotification
             //                        object:nil
@@ -289,9 +294,9 @@ RCT_EXPORT_METHOD(stopSession) {
                      #ifdef AVMetadataObjectTypeITF14Code
                      ,@"itf14": AVMetadataObjectTypeITF14Code
                      # endif
-                     #ifdef AVMetadataObjectTypeDataMatrixCode
-                     ,@"datamatrix": AVMetadataObjectTypeDataMatrixCode
-                     # endif
+//                     #ifdef AVMetadataObjectTypeDataMatrixCode
+                     ,@"datamatrix": @"org.iso.DataMatrix"
+//                     # endif
                 }
             };
 }
